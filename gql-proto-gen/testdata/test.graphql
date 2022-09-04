@@ -1,0 +1,10 @@
+type Struct {
+    s: String,
+    i: Int,
+}
+
+enum Enum {
+    A
+    B
+    C
+}

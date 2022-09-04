@@ -1,0 +1,1 @@
+# GraphQL to Protocol Buffers generator
