@@ -1,0 +1,178 @@
+syntax = "proto3";
+
+message Proto {
+  string syntax = 1;
+  repeated ProtoBodyElement body = 2;
+}
+
+message ProtoBodyElement {
+  oneof elem {
+    Import import = 1;
+    Package package = 2;
+    Option option = 3;
+    TopLevelDef top_level_def = 4;
+    EmptyStatement empty_statement = 5;
+  }
+}
+
+message Import {
+  string import = 1;
+  bool public = 2;
+  bool weak = 3;
+}
+
+message Package {
+  string name = 1;
+}
+
+message Option {
+  string name = 1;
+  string value = 2;
+}
+
+message TopLevelDef {
+  oneof def {
+    Message message = 1;
+    Enum enum = 2;
+  }
+}
+
+message Message {
+  string name = 1;
+  repeated MessageBodyElement body = 2;
+}
+
+message MessageBodyElement {
+  oneof elem {
+    Field field = 1;
+    Enum enum = 2;
+    Message message = 3;
+    Option option = 4;
+    OneOf one_of = 5;
+    Reserved reserved = 7;
+    EmptyStatement empty_statement = 8;
+  }
+}
+
+message Field {
+  bool repeated = 1;
+  FieldType type = 2;
+  string name = 3;
+  uint32 number = 4;
+  repeated Option options = 5;
+}
+
+message FieldType {
+  oneof type {
+    Primitive primitive = 1;
+    string message = 2;
+    string enum = 3;
+  }
+}
+
+enum Primitive {
+  DOUBLE = 0;
+  FLOAT = 1;
+  INT32 = 3;
+  INT64 = 4;
+  UINT32 = 5;
+  UINT64 = 6;
+  SINT32 = 7;
+  SINT64 = 8;
+  FIXED32 = 9;
+  FIXED64 = 10;
+  SFIXED32 = 11;
+  SFIXED64 = 12;
+  BOOL = 13;
+  STRING = 14;
+  BYTES = 15;
+}
+
+message Enum {
+  string name = 1;
+  repeated EnumBodyElement body = 2;
+}
+
+message EnumBodyElement {
+  oneof elem {
+    Option option = 1;
+    EnumField field = 2;
+    EmptyStatement empty_statement = 3;
+  }
+}
+
+message EnumField {
+  string name = 1;
+  int32 value = 2;
+  repeated Option options = 3;
+}
+
+message EmptyStatement {}
+
+message Reserved {
+  oneof reserved {
+    Ranges ranges = 1;
+    FieldNames field_names = 2;
+  }
+}
+
+message Ranges {
+  repeated Range ranges = 1;
+}
+
+message Range {
+  oneof range {
+    uint32 one = 1;
+    RangeTo to = 2;
+  }
+}
+
+message RangeTo {
+  uint32 from = 1;
+  uint32 to = 2;
+}
+
+message FieldNames {
+  repeated string names = 1;
+}
+
+message OneOf {
+  string name = 1;
+  repeated OneOfBodyElement body = 2;
+}
+
+message OneOfBodyElement {
+  oneof elem {
+    Option option = 1;
+    OneOfField field = 2;
+    EmptyStatement empty_statement = 3;
+  }
+}
+
+message OneOfField {
+  string name = 1;
+  uint32 number = 2;
+  repeated Option options = 3;
+}
+
+message MapField {
+  KeyType key_type = 1;
+  FieldType value_type = 2;
+  uint32 number = 3;
+  Option options = 4;
+}
+
+enum KeyType {
+  KEY_INT32 = 0;
+  KEY_INT64 = 1;
+  KEY_UINT32 = 2;
+  KEY_UINT64 = 3;
+  KEY_SINT32 = 4;
+  KEY_SINT64 = 5;
+  KEY_FIXED32 = 6;
+  KEY_FIXED64 = 7;
+  KEY_SFIXED32 = 8;
+  KEY_SFIXED64 = 9;
+  KEY_BOOL = 10;
+  KEY_STRING = 11;
+}
