@@ -15,3 +15,5 @@
 # vendor/
 
 .idea/
+
+proto-schema-gen/schema/
